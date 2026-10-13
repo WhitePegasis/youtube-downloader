@@ -162,3 +162,7 @@ Stop the existing copy of the app in its terminal with `Ctrl+C`, then start one 
 ## Security and deployment
 
 This is a small local development app. It binds to `127.0.0.1` and has no authentication, job queue, rate limiting, or production server. Do not expose it to the public internet or change the host to `0.0.0.0` without adding appropriate security controls. Keep Python and the packages in `requirements.txt` updated.
+
+
+<img width="1067" height="1091" alt="Screenshot 2026-10-14 013220" src="https://github.com/user-attachments/assets/fbfa15c5-80d8-4a08-a624-a1add3895015" />
+
