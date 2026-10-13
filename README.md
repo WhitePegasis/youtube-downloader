@@ -7,8 +7,10 @@ Use the app only for content you own or are authorized to save. Follow YouTube's
 ## Features
 
 - Accepts YouTube watch, short-link (`youtu.be`), embed, Shorts, and Live URLs.
+- Shows the video's title and thumbnail after a link is pasted.
 - Downloads one video at a time; playlists are disabled.
-- Produces MP3 audio at 192 kbps.
+- Saves the download using the video's title as its filename.
+- Produces MP3 audio with selectable bitrates from 64 to 320 kbps.
 - Produces MP4 video at the best available quality or up to 1080p, 720p, 480p, or 360p.
 - Merges separate video and audio streams and converts audio using FFmpeg.
 - Runs locally and listens only on `127.0.0.1:5000` by default.
@@ -83,12 +85,12 @@ Then open [http://127.0.0.1:5000](http://127.0.0.1:5000). On macOS/Linux, the sa
 
 ## Use
 
-1. Paste a supported YouTube URL.
-2. Choose **Audio (MP3)** or **Video (MP4)**.
+1. Paste a supported YouTube URL; the app will try to show its title and thumbnail.
+2. Choose **Audio (MP3)** or **Video (MP4)**. For audio, select an MP3 bitrate; lower bitrates make smaller files.
 3. For video, choose **Best available** or a maximum resolution.
 4. Select **Download** and save the file offered by your browser.
 
-Audio ignores the video quality selection. The app normalizes supported URL forms to a YouTube watch URL and asks yt-dlp to download one item, not a playlist.
+Audio bitrate and video resolution are separate settings. The download button returns to its ready state after each completed request. The app normalizes supported URL forms to a YouTube watch URL and asks yt-dlp to download one item, not a playlist.
 
 ## Network and proxy configuration
 
@@ -114,9 +116,9 @@ Replace the example with your authorized proxy URL. The variable must be set in 
 
 ## How the app works
 
-- `app.py` serves the HTML form at `/` and handles form submissions at `POST /download`.
+- `app.py` serves the HTML form at `/`, retrieves title and thumbnail metadata at `POST /info`, and handles form submissions at `POST /download`.
 - URL validation permits YouTube hosts and extracts a video ID from watch, `youtu.be`, embed, Shorts, and Live links.
-- Audio selection uses yt-dlp's best audio stream and FFmpeg to produce a 192 kbps MP3.
+- Audio selection uses yt-dlp's best audio stream and FFmpeg to produce an MP3 at the selected bitrate (64, 96, 128, 192, or 320 kbps).
 - Video selection asks yt-dlp for MP4 video and M4A audio streams, merges them as MP4, and applies the selected maximum-height filter when one is chosen.
 - Each request downloads into a temporary directory. The file is streamed to the browser as an attachment, and the temporary directory is removed after the response closes.
 - yt-dlp's cache is kept in the app's `.cache` directory. Downloads are not kept in the project folder.
